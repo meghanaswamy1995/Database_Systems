@@ -1,4 +1,3 @@
-
 -- DB software used: MYSQL Workbench.
 -- NAME: Meghana Putta Swamy
 -- USC ID : 6565038173

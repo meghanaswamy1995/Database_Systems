@@ -1,3 +1,4 @@
+
 -- DB software used: MYSQL Workbench.
 -- NAME: Meghana Putta Swamy
 -- USC ID : 6565038173
@@ -40,6 +41,6 @@ ON INSTRUCTOR_SUBJECT.SUBJECT=SUBJECTS.SUBJECT_JD
 GROUP BY INSTRUCTOR
 HAVING COUNT(*) = (SELECT COUNT(*) FROM SUBJECTS) 
 
-
+-- Note:
 -- Created table SUBJECTS of the all the subjects which are needed as part of the Job description
 -- First join table INSTRUCTOR_SUBJECT and SUBJECTS and then find the INSTRUCTOR in the joined table whose SUBJECTS number is equal to the number of the SUBJECTS_JD in the SUBJECTS table.

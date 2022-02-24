@@ -1,3 +1,4 @@
+
 -- DB software used: MYSQL Workbench.
 -- NAME: Meghana Putta Swamy
 -- USC ID : 6565038173
@@ -31,7 +32,7 @@ CREATE TABLE SUBJECTS(
 
 INSERT INTO Subjects VALUES ('Javascript'); 
 INSERT INTO Subjects VALUES ('Scratch'); 
-INSERT INTO Subjects VALUES ('Python'); 
+INSERT INTO Subjects VALUES ('Python');
 
 
 SELECT i1.INSTRUCTOR
@@ -40,6 +41,7 @@ WHERE i1.SUBJECT IN (SELECT SUBJECT_JD FROM SUBJECTS)
 GROUP BY i1.INSTRUCTOR
 HAVING COUNT(*) = (SELECT COUNT(*) FROM SUBJECTS) 
 
+-- Note:
 -- Created table SUBJECTS of the all the subjects which need in the job description
 -- Then extract the INSTRUCTORS in the table INSTRUCTOR_SUBJECT who teaches all the subjects contained in the table SUBJECTS using count.
 

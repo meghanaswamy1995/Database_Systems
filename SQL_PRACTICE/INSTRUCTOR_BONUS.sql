@@ -1,4 +1,3 @@
-
 -- DB software used: MYSQL Workbench.
 -- NAME: Meghana Putta Swamy
 -- USC ID : 6565038173
@@ -27,6 +26,3 @@ INSERT INTO INSTRUCTOR_BONUS VALUES(113,'CLAIRE','JAVASCRIPT',10,15.00);
 
 SELECT MAX(BONUS) FROM (SELECT SUM(STD_ENROLLED*HOURLY_RATE*0.1) AS BONUS FROM INSTRUCTOR_BONUS
 GROUP BY (INSTRUCTOR_NAME))AS BONUS_TABLE;
-
--- Note:
--- i have written the query in such a way that only max bonus amount is displayed after computation 

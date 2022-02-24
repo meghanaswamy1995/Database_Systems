@@ -1,4 +1,3 @@
-
 -- DB software used: MYSQL Workbench.
 -- NAME: Meghana Putta Swamy
 -- USC ID : 6565038173
@@ -25,7 +24,6 @@ INSERT INTO PROJECT_STATUS VALUES ('P333',3,'W');
 
 
 SELECT PID FROM PROJECT_STATUS 
-WHERE (STEP=0 AND STAT='C') AND PID NOT IN ( SELECT PID FROM PROJECT_STATUS WHERE STEP=1 AND STAT='C'); 
+WHERE (STEP=0 AND STAT='C') AND PID NOT IN ( SELECT PID FROM PROJECT_STATUS WHERE STEP=1 AND STAT='C');
 
--- Note:
--- I am querying for the Project ID whihc has only first step completed and not any other step completed. 
+
