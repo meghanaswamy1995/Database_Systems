@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>MyPlaces</title>
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.14.1/build/ol.js"></script>
+
+<style>
+#map {
+    width:1000px; 
+    height:800px; 
+}
+</style>
+</head>
+
+<body>
+<div id="map"></div>
+
+<script>
+
+var my_points = {           
+    "MyPlaces":[{"a":34.0267831,"b":-118.3969971},
+    {"a":34.02504575165618,"b":-118.39641533256666},
+    {"a":34.02461937982565,"b":-118.39453866752659},
+    {"a":34.02604251942401,"b":-118.3947073754616},
+    {"a":34.026507411593441,"b":-118.3943017463867},
+    {"a":34.025242576622006,"b":-118.39381490181742},
+    {"a":34.024745715871056,"b":-118.3946919266687},
+    {"a":34.030671284858315,"b":-118.40148042144986},
+    {"a":34.025655889918355,"b":-118.39554801689033},
+    {"a":34.02546933190813,"b":-118.39310563315149},
+    {"a":34.02797747716255,"b":-118.39379008271207},
+    {"a":34.02359813213935,"b":-118.39908531794404},
+    {"a":34.023554351938074,"b":-118.39918837762765}]
+  }; 
+
+localStorage.setItem("myMapData",JSON.stringify(my_points)); 
+
+var mapDataStored = JSON.parse(localStorage.getItem("myMapData"));
+
+console.log(mapDataStored); 
+
+
+var mapPoints = mapDataStored.MyPlaces;
+for(var indx in mapPoints) { 
+  console.log(mapPoints[indx]); 
+}
+
+
+var map;
+function initMap() {
+
+   map = new ol.Map({
+        target: 'map',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([-118.3969971,34.0267831]),
+          zoom: 18,
+          maxZoom: 18
+        })
+      });
+
+}
+
+function addMarker(lat, lon) {
+var layer = new ol.layer.Vector({
+     source: new ol.source.Vector({
+         features: [
+             new ol.Feature({
+                 geometry: new ol.geom.Point(ol.proj.fromLonLat([lon,lat]))
+             })
+         ]
+     })
+ }); 
+ map.addLayer(layer);
+}
+
+initMap();
+
+addMarker(34.0267831,-118.3969971); //Home
+addMarker(34.02504575165618,-118.39641533256666);
+addMarker(34.02461937982565,-118.39453866752659);
+addMarker(34.02604251942401,-118.3947073754616);
+addMarker(34.026507411593441,-118.3943017463867);
+addMarker(34.025242576622006,-118.39381490181742);
+addMarker(34.024745715871056,-118.3946919266687);
+addMarker(34.030671284858315,-118.40148042144986);
+addMarker(34.025655889918355,-118.39554801689033);
+addMarker(34.02546933190813,-118.39310563315149);
+addMarker(34.02797747716255,-118.39379008271207);
+addMarker(34.02359813213935,-118.39908531794404);
+addMarker(34.023554351938074,-118.39918837762765);  
+
+</script>
+
+</body>
+
+</html>
+
+<!--
+https://www.google.com/maps/search/usc/@34.0205363,-118.2855507,36m/data=!3m1!1e3
+-->

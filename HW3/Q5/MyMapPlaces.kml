@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<Document>
+<Style id="z1">
+<IconStyle><Icon><href>http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png</href></Icon></IconStyle>
+</Style>
+<Folder><name>Home</name>
+<Placemark><name>Home</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.3969971,34.0267831</coordinates></Point>
+</Placemark>
+</Folder>
+<Folder><name>Restaurants</name>
+<Placemark><name>Cali Tandoor</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.39641533256666,34.02504575165618</coordinates></Point>
+</Placemark>
+<Placemark><name>Montys Good Burger</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.39453866752659,34.02461937982565</coordinates></Point>
+</Placemark>
+<Placemark><name>Emerald Thai Cuisine</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.3947073754616,34.02604251942401</coordinates></Point>
+</Placemark>
+<Placemark><name>CAVA</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.39381490181742,34.025242576622006</coordinates></Point>
+</Placemark>
+<Placemark><name>In-N-Out Burger</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.3943017463867,34.02650741159344</coordinates></Point>
+</Placemark>
+<Placemark><name>Potato Chips Deli Culver City</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.3946919266687,34.024745715871056</coordinates></Point>
+</Placemark>
+</Folder>
+<Folder><name>Grocery stores</name>
+<Placemark><name>India sweet and spices</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.39554801689033,34.025655889918355</coordinates></Point>
+</Placemark>
+<Placemark><name>Trader joes</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.39310563315149,34.02546933190813 </coordinates></Point>
+</Placemark>
+<Placemark><name>Sprouts Farmers market</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.39379008271207,34.02797747716255</coordinates></Point>
+</Placemark>
+<Placemark><name>India food mart</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.39908531794404,34.02359813213935</coordinates></Point>
+</Placemark>
+<Placemark><name>Bahay Natin food mart</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.39918837762765,34.023554351938074</coordinates></Point>
+</Placemark>
+<Placemark><name>Vons</name>
+<styleUrl>#z1</styleUrl><Point><coordinates>-118.40148042144986,34.030671284858315</coordinates></Point> 
+</Placemark>
+</Folder> 
+ 
+<Placemark>
+   <name>Convex_Hull</name> 
+       <Style><LineStyle>
+	<color>ffff7d53</color>
+	</LineStyle>
+	<PolyStyle><color>80fe4d28</color></PolyStyle></Style> 
+          <Polygon> 
+            <outerBoundaryIs>
+              <LinearRing>
+                <coordinates> 
+		 -118.39918837762765,34.023554351938074,30
+                  -118.40148042144986,34.030671284858315,30
+                  -118.39379008271207,34.02797747716255,30
+                  -118.39310563315149,34.02546933190813,30
+                  -118.39453866752659,34.02461937982565,30
+                  -118.39918837762765,34.023554351938074,30
+		</coordinates>
+              </LinearRing>
+            </outerBoundaryIs>
+          </Polygon> 
+  </Placemark>
+  <Placemark>
+	<name>Neighbour1</name>
+	<description>Neighbour1</description>
+	<Style><LineStyle><color>ff0000ff</color><width>2</width></LineStyle></Style>
+	<LineString>
+	<coordinates>-118.3969971,34.0267831 -118.39641533256666,34.02504575165618</coordinates>
+	</LineString>
+  </Placemark>	
+</Document>
+</kml> 
