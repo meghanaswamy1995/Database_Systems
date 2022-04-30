@@ -1,0 +1,255 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2638
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 HelveticaNeue-Medium;\f1\fnil\fcharset0 HelveticaNeue-Bold;\f2\fnil\fcharset0 HelveticaNeue;
+\f3\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red38\green38\blue38;\red245\green245\blue245;\red12\green91\blue108;
+\red242\green242\blue242;}
+{\*\expandedcolortbl;;\cssrgb\c20000\c20000\c20000;\cssrgb\c96863\c96863\c96863;\cssrgb\c0\c43137\c49804;
+\cssrgb\c96078\c96078\c96078;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs38 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \'a0\
+\pard\pardeftab720\sa300\partightenfactor0
+
+\fs46 \cf2 HW5: ML\
+\pard\pardeftab720\sa300\partightenfactor0
+
+\fs42 \cf2 Total points: 6 (+1... but the total will be capped at 6)\
+This last hw is on supervised\'a0
+\f1\b machine learning!
+\f0\b0 \'a0As you now know, it's\'a0
+\f1\b data-related
+\f0\b0 \'a0(lots, and lots, and lots of it), after all :)\
+Here is a summary of what you'll do:\'a0
+\f1\b on Google's\'a0{\field{\*\fldinst{HYPERLINK "https://colab.research.google.com/"}}{\fldrslt \cf4 \strokec4 Colab}}, train a neural network on differentiating between a cat pic and dog pic, then use the trained network to classify a new (cat-like or dog-like) pic into a cat or dog.
+\f0\b0 \'a0This is a 'soup-to-nuts' (start to finish) assignment that will get your feet wet (or plunge you in!), doing ML - a VERY valuable skill -\'a0{\field{\*\fldinst{HYPERLINK "http://apollo.auto/"}}{\fldrslt \cf4 \strokec4 training a self-driving car}}, for example, would involve much more complexity, but would be based on the same workflow. You'll also use a different neural network [this one is pre-trained and deployed], to ID chihuahas and muffins :)\
+You are going to carry out 'supervised learning', as shown in this annotated graphic [from a book on TensorFlow]:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic SupML.png \width6520 \height3210 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 Below are the steps. Have fun!\
+1. Use your GMail/GDrive account to log in, go to\'a0{\field{\*\fldinst{HYPERLINK "https://drive.google.com/"}}{\fldrslt \cf4 \strokec4 https://drive.google.com/}}, click on the '+ New' button at the top left of the page, look for the 'Colab' app [after + New, click on More >, then + Connect more apps] and connect it - this will make the app [which connects to the mighty Google Cloud on the other end!] be able to access (read, write) files and folders in your GDrive.\
+2. You'll notice that the above step created a folder called Colab Notebooks, inside your GDrive - this is good, because we can keep Colab-related things nicely organized inside that folder. Colab is a cloud environment (maintained by Google), for executing Jupyter 'notebooks'. A Jupyter notebook (.ipynb extension, 'Iron Python Notebook') is a JSON file that contains a mix of two types of "cells" - text cells that have Markdown-formatted text and images, and code cells that contain, well, code :) The code can be in\'a0
+\f1\b Ju
+\f0\b0 lia,\'a0
+\f1\b Pyt
+\f0\b0 hon, or\'a0
+\f1\b R
+\f0\b0 \'a0(or several other languages, including JavaScript, with appropriate language 'plugins' (kernels) installed); for this HW, we'll use Python notebooks.\'a0{\field{\*\fldinst{HYPERLINK "https://bytes.usc.edu/cs585/s22_d_ay_tah/hw/HW5/nb/RealtimeR0.ipynb"}}{\fldrslt \cf4 \strokec4 Here}}\'a0is a COVID-19 notebook. Download it (make sure that ends up on your machine as a .ipynb extension; if your downloading turned it into a .txt, rename it to be .ipynb), then drag and drop it into your Colab GDrive folder. Colab will open the notebook - look through it, to see a mix of text, equations (can contain figures, videos... too), and, most significantly, code. The code in our notebook uses data from\'a0{\field{\*\fldinst{HYPERLINK "https://covidtracking.com/"}}{\fldrslt \cf4 \strokec4 https://covidtracking.com/}}, to calculate 'R0' values. In Colab, do\'a0{\field{\*\fldinst{HYPERLINK "https://bytes.usc.edu/cs585/s22_d_ay_tah/hw/HW5/pics/RealtimeR0.jpg"}}{\fldrslt \cf4 \strokec4 'Runtime -> Run all'}}\'a0to run the code in all the cells; after the code is done running, scroll through, to see the results (several plots).\'a0
+\f1\b ALL the computations happened on the cloud, with data fetched by the code, from a URL ({\field{\*\fldinst{HYPERLINK "https://covidtracking.com/api/v1/states/daily.csv"}}{\fldrslt \cf4 \strokec4 https://covidtracking.com/api/v1/states/daily.csv}}) - pretty neat!
+\f0\b0 \
+3. Within the Colab Notebooks subdir/folder, create a folder called cats-vs-dogs, for the hw:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic ColabDir1.png \width5500 \height2730 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 Now we need DATA [images of cats and dogs] for training and validation, and scripts for training+validation and classifying.\
+4. Download\'a0{\field{\*\fldinst{HYPERLINK "https://bytes.usc.edu/cs585/s22_d_ay_tah/hw/HW5/data/data.zip"}}{\fldrslt \cf4 \strokec4 this}}\'a0.zip data file (~85MB), unzip it. You'll see this structure:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs24 \cf2 \cb5 data/\
+  live/\
+  train/\
+    cats/\
+    dogs/\
+  validation/\
+    cats/\
+    dogs/\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 The 'train/' folder contains 1000 kitteh images under cats/, and 1000 doggo/pupper ones in dogs/. Have fun, looking at the photos of the adorable, lovable furbabies :) Obviously\'a0
+\f1\b you
+\f0\b0 \'a0know which is which :) A neural network is going to start from scratch, and 'learn' the difference, just based on these 2000 'training dataset' images. The 'validation/' (ie. test) folder contains 400 images each, of more cats and dogs - these are to feed the trained network, compare its classification answers to the actual answers so that we can compute the accuracy of the training; in our code, we do this testing after each training epoch, to watch the accuracy build up, mostly monotonically. And, 'live/' is where you'd be placing new (to the NN) images of cats and dogs [that are not in the training or validation datasets], and use their filenames to\'a0
+\f1\b ask the network to classify them
+\f0\b0 : an output of 0 means 'cat', 1 means 'dog'.\'a0
+\f1\b Fun!
+\f0\b0 \
+Simply drag and drop the data/ folder on to your My Drive/Colab Notebooks/cats-vs-dogs/ area, and wait for about a half hour for the 2800 (2*(1000+400)) images to be uploaded. After that, you should be seeing this [click inside the train/ and validation/ folders to see that the cats and dogs pics have been indeed uploaded]:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic ColabDir2.png \width5500 \height1570 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 5. OK,\'a0
+\f1\b time to train a network
+\f0\b0 ! Download\'a0{\field{\*\fldinst{HYPERLINK "https://bytes.usc.edu/cs585/s22_d_ay_tah/hw/HW5/nb/train.ipynb"}}{\fldrslt \cf4 \strokec4 this}}\'a0Jupyter notebook. Drag and drop the notebook into cats-vs-dogs/:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic ColabDir3.png \width5500 \height3980 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 Double click on the notebook, that will open it so you can execute the code in the cell(s).\
+As you can see, it is a VERY short piece of code [not mine, except for the annotations and mods I made] where a network is set up [starting with 'model = Sequential()'], and the training is done using it [model.fit_generator()]. In the last line, the RESULTS [learned weights, biases, for each neuron in each layer] are stored on disk as a weights.h5 file [a .h5 file is binary, in the publicly documented\'a0{\field{\*\fldinst{HYPERLINK "https://en.wikipedia.org/wiki/Hierarchical_Data_Format"}}{\fldrslt \cf4 \strokec4 .hd5 file format}}\'a0(hierarchical, JSON-like, perfect for storing network weights)].\
+The code uses the\'a0{\field{\*\fldinst{HYPERLINK "https://keras.io/"}}{\fldrslt \cf4 \strokec4 Keras NN library}}, which runs on graph (dataflow) execution backends such TensorFlow(TF), CNTK [here we are running it over TF via the Google cloud]. With Keras, it is possible to\'a0{\field{\*\fldinst{HYPERLINK "https://www.datacamp.com/community/blog/keras-cheat-sheet"}}{\fldrslt \cf4 \strokec4 express NN architectures succintly}}\'a0- the TensorFlow equivalent would be more verbose. As a future exercise, you can try coding the model in this hw, directly in TF or CNTK, or PyTorch, just for practice - you should get the same results.\
+Before you run the code to kick off the training, note that you will be using GPU acceleration on the cloud (
+\f1\b results in ~10x speedup
+\f0\b0 ) - cool! You'd do this via 'Edit -> Notebook settings'. In this notebook, this is already set up (by me), but you can verify that it's set:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic ColabDir4.png \width5500 \height3220 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 When you click on the circular 'play' button at the left of the cell, the training will start - here is a sped-up version of what you will get (your numerical values will be different):\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \
+\
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 The backprop loop runs 50 times ({\field{\*\fldinst{HYPERLINK "https://keras.io/getting-started/faq/#what-does-sample-batch-epoch-mean"}}{\fldrslt \cf4 \strokec4 'epochs'}}) through all the training data. The acc: column shows the accuracy [how close the training is, to the expected validation/ results], which would be a little over 80% - NOT BAD, for having learned from just 1000 input images for each class!\
+Click the play button to execute the code! The first time you run it (and anytime after logging out and logging back in), you'd need to authorize Colab to access GDrive - so a message will show up, under the code cell, asking you to click on a link whereby you can log in and provide authorization, and copy and paste the authorization code that appears. Once you do this, the rest of the code (where the training occurs) will start to run.\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \
+\pard\pardeftab720\sa180\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic auth1.png \width5000 \height3740 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sa180\partightenfactor0
+\cf2 \cb3 \
+\
+\pard\pardeftab720\sa180\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic auth2.png \width5000 \height1380 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sa180\partightenfactor0
+\cf2 \cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 Scroll down to below the code cell, to watch the training happen. As you can see, it is going to take a short while.\
+After the 50th epoch, we're all done training (and validating too, which we did 50 times, once at the end of each epoch).\'a0
+\f1\b What's the tangible result, at the end of our training+validating process? It's a 'weights.h5' file!
+\f0\b0 \'a0If you look in your cats-vs-dogs/ folder, it should be there:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic ColabDir5.png \width5500 \height3090 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 6. Soooo, what exactly [format and content-wise] is in the weights file? You can find out, by downloading HDFView-2.14.0, from\'a0{\field{\*\fldinst{HYPERLINK "https://support.hdfgroup.org/products/java/release/download.html"}}{\fldrslt \cf4 \strokec4 https://support.hdfgroup.org/products/java/release/download.html}}\'a0[grab the binary, from the 'HDFView+Object 2.14' column on the left]. Install, and bring up the program. Download the .h5 file from GDrive to your local area (eg. desktop), then drag and drop it into HDView:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic HDV1.png \width5000 \height5610 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 Right-click on weights.h5 at the top-left, and do 'Expand All':\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic HDV2.png \width5250 \height5730 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 Neat! We can see the NN columns, and the biases and weights (kernels) for each. Double click on the bias and kernel items in the second (of the two) dense layers [dense_12, in my case - yours might be named something else], and stagger them so you can see both:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic HDV3.png \width5500 \height5540 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f1\b\fs42 \cf2 Computing those floating point numbers is WHAT -EVERY FORM- OF NEURAL NETWORK TRAINING IS ALL ABOUT!
+\f0\b0 \'a0A self-driving car, for example, is also trained the same way, resulting in weights that can classify live traffic data (scary, in my opinion). Here, collectively (taking all layers into account),\'a0
+\f1\b it's those floating point numbers that REPRESENT the network's "learning" of telling apart cats and dogs!
+\f0\b0 \'a0The "learned" numbers (the .h5 weights file, actually) can be sent to anyone, who can instantiate a new network (with the same architecture as the one in the training step), and simply re/use the weights in weights.h5, to start classifying cats and dogs right away - no training necessary. The weight arrays represent "catness" and "dogness", in a sense :) We would call the network+weights, a 'pre-trained model'. In a self-driving car, the weights would be copied to the\'a0{\field{\*\fldinst{HYPERLINK "https://www.wired.com/story/self-driving-cars-power-consumption-nvidia-chip/"}}{\fldrslt \cf4 \strokec4 processing hardware}}\'a0that resides in the car.\
+
+\f1\b Q1
+\f0\b0 \'a0[1+1=2 points]. Submit your weights.h5 file. Also, create a submittable screengrab similar to the above [showing values for the second dense layer (eg. dense_12)]. For fun, click around, examine the arrays in the other layers as well. Again, it's all these values that are the end result of training, on account of iterating and minimizing classification errors through those epochs.\
+7. Now for the fun part - finding out how well our network has learned! Download\'a0{\field{\*\fldinst{HYPERLINK "https://bytes.usc.edu/cs585/s22_d_ay_tah/hw/HW5/nb/classify.ipynb"}}{\fldrslt \cf4 \strokec4 this}}\'a0Jupyter notebook, and upload it to your cats-vs-dogs/ Colab area:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic ColabDir6.png \width5500 \height3570 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 When you open classify.ipynb, you can see that it contains Keras code to read the weights file and associate the weights with a new model (which needs to be 100% identical to the one we had set up, to train), then take a new image's filename as input, and\'a0
+\f1\b predict (model.predict()) whether the image is that of a cat [output: 0], or a dog [output: 1]!
+\f0\b0 \'a0Why 0 for cat and 1 for dog? Because 'c' comes before 'd' alphabetically [or\'a0{\field{\*\fldinst{HYPERLINK "https://bytes.usc.edu/cs585/s22_d_ay_tah/hw/HW5/pics/purple.png"}}{\fldrslt \cf4 \strokec4 because}}] :)\
+Supply (upload, into live/) a what1.jpg cat image, and what2.jpg dog image, then execute the cell. Hopefully you'd get a 0, and 1 (for what1.jpg and what2.jpg, respectively). The images can be any resolution (size) and aspect ratio (squarishness), but nearly-square pics would work best. Try this with pics of your pets, your neighbors', images from a Google search, even your drawings/paintings...\'a0
+\f1\b Isn't this cool? Our little network can classify!
+\f0\b0 \
+Just FYI, note that the classification code in classify.ipynb could have simply been inside a new cell in train.ipynb instead. The advantage of multiple code cells inside a notebook, as opposed to multiple code blocks in a script, is that in a notebook, code cells can be independently executed one at a time (usually sequentially) - so if both of our programs were in the same notebook, we would run the training code first (just once), followed by classification (possibly multiple times); a script on the other hand, can't be re/executed in parts.\
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f1\b \cf2 Q2
+\f0\b0 \'a0[2 points]. Create a screenshot that shows the [correct] classification (you'll also be submitting your what\{1,2\}.jpg images with this).\
+What about misclassification? After all, we trained with "just" 1000 (not 1000000) images each, for about an 80% accurate prediction. What if we input 'difficult' images, of a cat that looks like it could be labeled a dog, and the other way around? :)\
+
+\f1\b Q3
+\f0\b0 \'a0[2 points]. Get a 'Corgi' image [the world's\'a0{\field{\*\fldinst{HYPERLINK "https://thesmartcanine.com/are-corgis-smart/"}}{\fldrslt \cf4 \strokec4 smartest}}\'a0dogs!], and a 'dog-like' cat image [hint, it's all about the ears!], upload to live/, attempt to (mis)classify, ie. create incorrect results (where the cat pic outputs a 1, and the dog one, 0), get a screenshot. Note that you need to edit the code to point myPic and myPic2 to these image filenames.\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs30 \cf2 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f1\b\fs42 \cf2 1 point bonus
+\f0\b0 .\'a0{\field{\*\fldinst{HYPERLINK "https://arxiv.org/pdf/1704.04861.pdf"}}{\fldrslt \cf4 \strokec4 MobileNet}}-based detection!\
+Click on\'a0{\field{\*\fldinst{HYPERLINK "https://bytes.usc.edu/cs585/s22_d_ay_tah/hw/HW5/tfjs/run.html"}}{\fldrslt \cf4 \strokec4 this}}\'a0web page, wait a few sec (for an alert to pop up) - dog detection! Download the html (RMB on the link to save), and edit it - you'll see a small bunch of markup:\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic tfjshtml.jpg \width10750 \height8450 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 The page loads TensorFlow, and a pre-trained MobileNet model (eg. from\'a0{\field{\*\fldinst{HYPERLINK "https://github.com/tensorflow/models/blob/master/research/slim/nets/mobilenet_v1.md"}}{\fldrslt \cf4 \strokec4 here}}), off a CDN. For the detection, we specify a local image, using 'src='. You can see I'm specifying 'chih.jpg', a Chihuahua pic I downloaded off the web.\
+You are going to get your own Chihuahua CLOSEUP (crop what you download if you need to), and a muffin, put in each (one after another), load the page in your browser, get screenshots of the detection.\
+But first, you need to install Miniconda so that you can run a local server - look\'a0{\field{\*\fldinst{HYPERLINK "https://www.codecademy.com/articles/install-python3"}}{\fldrslt \cf4 \strokec4 here}}\'a0under 'Installing Miniconda'. After Miniconda is installed, bring up a shell, place\'a0{\field{\*\fldinst{HYPERLINK "https://bytes.usc.edu/cs585/s22_d_ay_tah/hw/HW5/serveit.py"}}{\fldrslt \cf4 \strokec4 this}}\'a0script in the directory where you are (in the shell) and type the following to start a webserver ('python serveit.py\'a0'):\
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \cb1 \uc0\u8232 {{\NeXTGraphic serveit.jpg \width6670 \height4960 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\cb3 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 After starting the webserver, on your (Chrome) browser, go to localhost:8000/, navigate to your .html - you will see that your pic is loaded, and labeled! Take screenshots of a correct Chihuahua IDing, correct muffin IDing (as 'bakery, bakeshop', not 'muffin', because MobileNet isn't specifically trained on muffins), and a mis-IDing (Chihuahua face closeup misclassified as a muffin (ie. 'bakery, bakeshop'), or the other way around, where a muffin gets labeled as a dog (ANY breed)).\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs30 \cf2 \cb1 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 \cb3 Here's a checklist of what to submit [
+\f1\b as a single .zip file
+\f0\b0 ]:\cb1 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\fs38 \cf2 \cb3 \'95 weights.h5, and a screenshot from HDFView\cb1 \
+\cb3 \'95 your 'good' cat and dog pics, and screenshot that shows proper classification\cb1 \
+\cb3 \'95 your 'trick' cat and dog pics, and screenshot that shows misclassification\cb1 \
+\cb3 \'95 if you do the bonus question: three screenshots\cb1 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs30 \cf2 \
+\pard\pardeftab720\sa300\partightenfactor0
+
+\f0\fs42 \cf2 \cb3 All done - hope you had fun, and learned a lot!\cb1 \
+\cb3 Note - you can continue using Colab to run\'a0{\field{\*\fldinst{HYPERLINK "https://github.com/jupyter/jupyter/wiki"}}{\fldrslt \cf4 \strokec4 all sorts of notebooks}}\'a0[on Google's cloud GPUs!], including ones with ML code written using TensorFlow, Keras, PyTorch... etc.\cb1 \
+\pard\pardeftab720\sa180\partightenfactor0
+
+\f2\fs36 \cf2 \
+\pard\pardeftab720\partightenfactor0
+
+\fs30 \cf2 \
+\pard\pardeftab720\sa180\partightenfactor0
+
+\fs36 \cf2 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\fs30 \cf2 \
+\pard\pardeftab720\sa180\partightenfactor0
+
+\fs36 \cf2 \
+\
+\pard\pardeftab720\sa180\partightenfactor0
+\cf2 \cb3 \'a0\cb1 \
+}
